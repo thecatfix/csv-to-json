@@ -18,7 +18,7 @@ module.exports = function (grunt) {
                 command: [
                     'npm install',
                     'grunt'
-                ].join('&&'),
+                ].join(' && '),
                 options: {
                     execOptions: {
                         cwd: 'bower_components/csv-js'
@@ -31,7 +31,7 @@ module.exports = function (grunt) {
             options: {
                 jshintrc: '.jshintrc'
             },
-            all: ['Gruntfile.js', 'src/js/**/*.js']
+            all: ['Gruntfile.js', 'src/**/*.js']
         },
 
         copy: {
@@ -57,16 +57,16 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-
             dist: {
                 files: [
-                    {expand: true, cwd: 'build/', src: ['**'],     dest: 'dist/'}
+                    {expand: true, cwd: 'build/', src: ['**'], dest: 'dist/'}
                 ]
             }
         },
 
         clean: {
-            build: ['build', 'bower_components'],
+            build: ['build'],
+            bower_components: ['bower_components'],
             dist:  ['dist']
         }
     });
@@ -80,10 +80,11 @@ module.exports = function (grunt) {
 
     // Default task(s).
     grunt.registerTask('default', [
-        'clean:build', // start with a clean slate
+        'clean:build', // start with a clean build directory
+        'clean:bower_components', // clean bower_components directory
         'clean:dist',
+        'bower',              // install Bower components
 
-        'jshint',     // lint our JS in src/
         'copy:build', // copy our JS from src/ to build/
 
         'bower',              // install Bower components
